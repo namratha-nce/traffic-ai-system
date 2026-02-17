@@ -5,13 +5,11 @@ opencv-python==3.4.3.18
 flask
 ultralytics
 opencv-python
-easyocr
 pandas
 openpyxl
 flask
 ultralytics
 opencv-python-headless
-easyocr
 pandas
 openpyxl
 gunicorn

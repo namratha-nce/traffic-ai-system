@@ -2,7 +2,6 @@ import cv2
 import time
 import os
 import pandas as pd
-import easyocr
 from ultralytics import YOLO
 from flask import Flask, render_template, Response
 
@@ -22,7 +21,6 @@ os.makedirs("static/plates", exist_ok=True)
 
 vehicle_model = YOLO(VEHICLE_MODEL_PATH)
 plate_model = YOLO(PLATE_MODEL_PATH)
-reader = easyocr.Reader(['en'])
 
 vehicle_entry_time = {}
 processed_ids = set()
@@ -97,8 +95,7 @@ def generate_frames():
                                         # OCR
                                         ocr = reader.readtext(plate_crop)
                                         if ocr:
-                                            plate_text = ocr[0][-2]
-
+                                            plate_text =  "Detected"
                                         plate_img_filename = f"plate_{track_id}.jpg"
                                         plate_img_path = f"static/plates/{plate_img_filename}"
 
