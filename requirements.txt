@@ -8,3 +8,10 @@ opencv-python
 easyocr
 pandas
 openpyxl
+flask
+ultralytics
+opencv-python-headless
+easyocr
+pandas
+openpyxl
+gunicorn
