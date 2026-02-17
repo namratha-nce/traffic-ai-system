@@ -6,7 +6,7 @@ from ultralytics import YOLO
 from flask import Flask, render_template, Response
 
 # ---------------- CONFIG ----------------
-VIDEO_PATH = "short-test4.mp4"   # Change if using video
+VIDEO_PATH = "short-test4.mp4"   # MUST use video file on Render
 VEHICLE_MODEL_PATH = "yolov8n.pt"
 PLATE_MODEL_PATH = "best.pt"
 
@@ -33,11 +33,6 @@ def calculate_speed(t1, t2):
     return (DISTANCE_METERS / diff) * 3.6
 
 def generate_frames():
-
-    # For CCTV RTSP use:
-    # cap = cv2.VideoCapture("rtsp://username:password@ip_address:554/stream")
-
-    # For testing with video file:
     cap = cv2.VideoCapture(VIDEO_PATH)
 
     while True:
@@ -64,11 +59,11 @@ def generate_frames():
                     cy = int((y1 + y2) / 2)
                     track_id = int(track_id)
 
-                    # Line 1
+                    # First line
                     if LINE_Y1 - 5 < cy < LINE_Y1 + 5:
                         vehicle_entry_time[track_id] = time.time()
 
-                    # Line 2
+                    # Second line
                     if LINE_Y2 - 5 < cy < LINE_Y2 + 5:
 
                         if track_id in vehicle_entry_time and track_id not in processed_ids:
@@ -83,7 +78,7 @@ def generate_frames():
                                 vehicle_crop = frame[y1:y2, x1:x2]
                                 plate_results = plate_model(vehicle_crop)
 
-                                plate_text = "Unknown"
+                                plate_text = "Detected"
                                 plate_img_filename = None
 
                                 for plate in plate_results:
@@ -92,10 +87,6 @@ def generate_frames():
                                         px1, py1, px2, py2 = map(int, pbox.xyxy[0])
                                         plate_crop = vehicle_crop[py1:py2, px1:px2]
 
-                                        # OCR
-                                        ocr = reader.readtext(plate_crop)
-                                        if ocr:
-                                            plate_text =  "Detected"
                                         plate_img_filename = f"plate_{track_id}.jpg"
                                         plate_img_path = f"static/plates/{plate_img_filename}"
 
