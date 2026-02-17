@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detection Results</title>
+</head>
+<body style="text-align:center;">
+
+    <h2>Processed Video</h2>
+
+    <video width="600" controls>
+        <source src="{{ url_for('static', filename='uploads/' + video) }}" type="video/mp4">
+    </video>
+
+    <h2>Overspeed Vehicles</h2>
+
+    <table border="1" align="center">
+        <tr>
+            <th>Vehicle ID</th>
+            <th>Speed (km/h)</th>
+            <th>Plate Number</th>
+        </tr>
+        {% for row in results %}
+        <tr>
+            <td>{{ row.vehicle_id }}</td>
+            <td>{{ row.speed }}</td>
+            <td>{{ row.plate }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="/">Upload Another Video</a>
+
+</body>
+</html>
